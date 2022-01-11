@@ -1,0 +1,41 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["dataProxy"]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  tickets   Ticket[]
+}
+
+model Ticket {
+  id           Int          @id @default(autoincrement())
+  title        String?
+  content      String?
+  status       TicketStatus
+  level        TicketLevel
+  assignedTo   User?        @relation(fields: [assignedToId], references: [id])
+  assignedToId Int?
+  createdAt    DateTime     @default(now())
+}
+
+enum TicketStatus {
+  NEW
+  OPEN
+  CLOSED
+}
+
+enum TicketLevel {
+  LOW
+  STANDARD
+  HIGH
+  CRITICAL
+}
