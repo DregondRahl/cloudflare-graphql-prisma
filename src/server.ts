@@ -8,7 +8,7 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { createContext, Context } from "./context";
 import typeDefs from "./graphql/typeDefs";
 import resolvers from "./graphql/resolvers";
-// import playground from "./playground";
+import playground from "./playground";
 // import graphiql from "./graphiql";
 import cors from "./cors";
 
@@ -41,9 +41,9 @@ const graphQLOptions: GraphQLConfig = {
   playgroundEndpoint: "/",
   cors: {
     allowCredentials: 'true',
-    allowHeaders: 'Content-type',
+    allowHeaders: 'application/json, Content-type',
     allowOrigin: '*',
-    allowMethods: 'GET, POST, PUT',
+    allowMethods: 'GET, POST, PUT, OPTIONS',
   },
 };
 
@@ -66,8 +66,8 @@ const apollo = async (request: Request, graphQLOptions: GraphQLConfig): Promise<
 const handleRequest = async (request: Request): Promise<Response> => {
   const url = new URL(request.url);
   switch (url.pathname) {
-    // case "/":
-    //   return playground(request, graphQLOptions);
+    case "/":
+      return playground(request, graphQLOptions);
     case "/graphql":
       const response =
         request.method === "OPTIONS"
