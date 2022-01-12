@@ -1,9 +1,9 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   // Wrangler doesn't like eval which devtools use in development.
-  // devtool: 'none',
+  devtool: 'none',
   entry: './src/server.ts',
   output: {
     filename: 'worker.js',
@@ -26,6 +26,7 @@ module.exports = {
     alias: {
       // Alias for resolving the Prisma Client properly
       '@prisma/client$': require.resolve('@prisma/client'),
+      'graphql-ws$': require.resolve('graphql-ws'),
       // Make apollo depends happy
       fs: path.resolve(__dirname, './src/null.ts'),
       net: path.resolve(__dirname, './src/null.ts'),
